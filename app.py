@@ -1,3 +1,5 @@
+import configparser
+
 def find_integer_pair(list_of_ints, num):
 
     list_of_ints = sorted(list_of_ints)
@@ -18,6 +20,29 @@ def find_integer_pair(list_of_ints, num):
 
 if __name__ == "__main__":
 
-    int_lst = [1,9,5,0,20,-4,12,16,7]
-    number = 12
-    find_integer_pair(int_lst, number)
+
+    decisition = input("Choose f if the arguments of the function are passed by a file, otherwise enter c letter: ")
+
+    if decisition.lower() == 'f':
+        with open('./arguments.ini') as fp:
+            config = configparser.ConfigParser()
+            config.read_file(fp)
+            list_values = config.get('ARGS', 'VALUES')
+            target_num = config.get('ARGS', 'TARGET')
+
+        list_values = list_values.split(",")
+        target_num = int(target_num)
+        list_values = [int(str_value) for str_value in list_values]
+        print(f"The values passed where {list_values}, {target_num}")
+        find_integer_pair(list_values, target_num)
+    elif decisition.lower() == 'c':
+        list_values = input(""""Enter list of values as is showed in the nex example:\n
+                                n_1,n_2,..,n_n:""")
+        target_num = input("Type an integer value:")
+        target_num = int(target_num)
+        list_values = list_values.split(",")
+        list_values = [int(str_value) for str_value in list_values]
+        print(f"The values passed where {list_values}, {target_num}")
+        find_integer_pair(list_values, target_num)
+    else:
+        print("neither f or c were typed")
